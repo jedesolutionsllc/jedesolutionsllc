@@ -19,9 +19,11 @@
     .hero-text {flex:1;}
     .hero-text h1 {font-size:3rem; margin-bottom:20px;}
     .hero-text p {color:#aaa; margin-bottom:30px; font-size:1.1rem;}
-    .hero-btns button {padding:12px 20px; margin-right:15px; border:none; border-radius:8px; cursor:pointer; font-weight:700;}
+    .hero-btns button {padding:12px 20px; margin-right:15px; border:none; border-radius:8px; cursor:pointer; font-weight:700; transition:0.3s;}
     .btn-primary {background:#176fb5; color:#fff;}
+    .btn-primary:hover {background:#0d5a9c; transform:translateY(-2px);}
     .btn-secondary {background:transparent; border:1px solid #555; color:#aaa;}
+    .btn-secondary:hover {border-color:#176fb5; color:#fff; transform:translateY(-2px);}
     section {padding:60px 0;}
     h2 {font-size:2rem; margin-bottom:30px; color:#fff;}
     .services-grid {display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:20px;}
@@ -34,17 +36,22 @@
     .job-card:hover {background:#176fb5;}
     .job-card h4 {margin-bottom:8px;}
     .job-card p {color:#ccc; margin-bottom:12px;}
-    .pill {padding:6px 10px; border-radius:50px; background:rgba(23,111,181,0.3); color:#176fb5; font-weight:700; font-size:0.85rem;}
+    .pill {display:inline-block; padding:6px 10px; border-radius:50px; background:rgba(23,111,181,0.3); color:#176fb5; font-weight:700; font-size:0.85rem; cursor:pointer; transition:0.3s;}
+    .pill:hover {background:rgba(23,111,181,0.5); color:#0a3d6b; transform:translateY(-2px);}
+    .job-card:hover .pill {color:#fff; background:rgba(255,255,255,0.2);}
     .contact-info {margin-top:20px; color:#ccc;}
     .contact-info a {color:#176fb5;}
     form {display:flex; flex-direction:column; max-width:500px;}
-    input, textarea {margin-bottom:15px; padding:12px; border-radius:8px; border:none;}
-    button.submit-btn {background:#176fb5; color:#fff; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:700;}
+    input, textarea {margin-bottom:15px; padding:12px; border-radius:8px; border:none; background:#1c1f2a; color:#fff;}
+    input::placeholder, textarea::placeholder {color:#888;}
+    button.submit-btn {background:#176fb5; color:#fff; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:700; transition:0.3s;}
+    button.submit-btn:hover {background:#0d5a9c; transform:translateY(-2px);}
     footer {text-align:center; padding:30px 0; color:#777; font-size:0.9rem; border-top:1px solid #222;}
     @media(max-width:768px){.hero {flex-direction:column;}.hero-text h1 {font-size:2rem;} nav a {margin-left:10px;}}
+    .smooth-scroll {scroll-behavior: smooth;}
   </style>
 </head>
-<body>
+<body class="smooth-scroll">
   <div class="container">
     <header>
       <div class="logo">Jede Solutions LLC</div>
@@ -62,8 +69,8 @@
         <h1>Staffing Engineers Who Build Tomorrow</h1>
         <p>Jede Solutions LLC connects companies with top-tier engineers in software, hardware, embedded systems, test, and medical devices.</p>
         <div class="hero-btns">
-          <button class="btn-primary">Request Talent</button>
-          <button class="btn-secondary">Our Services</button>
+          <button class="btn-primary" id="requestTalentBtn">Request Talent</button>
+          <button class="btn-secondary" id="servicesBtn">Our Services</button>
         </div>
       </div>
     </section>
@@ -87,19 +94,19 @@
           <h4>Senior Embedded Firmware Engineer</h4>
           <p>Remote / CA • Contract</p>
           <p>Work on medical device firmware. 3-6 month contract.</p>
-          <span class="pill">Apply</span>
+          <span class="pill" onclick="applyForJob('Senior Embedded Firmware Engineer')">Apply</span>
         </div>
         <div class="job-card">
           <h4>Full-Stack Software Engineer</h4>
           <p>San Francisco, CA • Full-time</p>
           <p>Product team building cloud SaaS.</p>
-          <span class="pill">Apply</span>
+          <span class="pill" onclick="applyForJob('Full-Stack Software Engineer')">Apply</span>
         </div>
         <div class="job-card">
           <h4>Test Automation Engineer (SDET)</h4>
           <p>Austin, TX • Contract-to-hire</p>
           <p>Build test frameworks and automation.</p>
-          <span class="pill">Apply</span>
+          <span class="pill" onclick="applyForJob('Test Automation Engineer (SDET)')">Apply</span>
         </div>
       </div>
     </section>
@@ -116,7 +123,7 @@
 
     <section id="contact">
       <h2>Contact Us</h2>
-      <form action="https://formspree.io/f/FORM_ID" method="POST">
+      <form id="contactForm">
         <input type="text" name="name" placeholder="Full Name" required>
         <input type="email" name="email" placeholder="Email" required>
         <input type="text" name="company" placeholder="Company">
@@ -130,7 +137,64 @@
     </footer>
   </div>
   <script>
+    // Set current year in footer
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Button click handlers
+    document.getElementById('requestTalentBtn').addEventListener('click', function() {
+      document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    document.getElementById('servicesBtn').addEventListener('click', function() {
+      document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Job application function
+    function applyForJob(jobTitle) {
+      const email = 'hr@jedesolutionsllc.com';
+      const subject = `Job Application: ${jobTitle}`;
+      const body = `Dear Jede Solutions Hiring Team,\n\nI am interested in applying for the ${jobTitle} position. Please find my details below:\n\nName: \nEmail: \nPhone: \nLinkedIn/Portfolio: \n\nThank you,\n[Your Name]`;
+      
+      window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+
+    // Contact form submission
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form data
+      const name = this.name.value;
+      const email = this.email.value;
+      const company = this.company.value;
+      const message = this.message.value;
+      
+      // Create email content
+      const mailto = 'hr@jedesolutionsllc.com';
+      const subject = `Contact Form Submission from ${name}`;
+      const body = `Name: ${name}\nEmail: ${email}\nCompany: ${company}\n\nMessage:\n${message}`;
+      
+      // Open email client
+      window.location.href = `mailto:${mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      // Optional: Reset form
+      this.reset();
+      
+      // Optional: Show confirmation
+      alert('Your email client will open with a pre-filled message. Please send it to contact us.');
+    });
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('nav a').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        if (targetId !== '#') {
+          document.querySelector(targetId).scrollIntoView({
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
   </script>
 </body>
 </html>
