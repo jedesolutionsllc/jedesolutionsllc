@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jede Solutions LLC</title>
+  <style>
+    * {margin:0;padding:0;box-sizing:border-box;}
+    body {font-family: 'Inter', sans-serif; line-height:1.6; color:#fff; background:#0b1220;}
+    a {color:inherit; text-decoration:none;}
+    ul {list-style:none;}
+    img {max-width:100%; display:block;}
+    .container {max-width:1200px; margin:0 auto; padding:0 20px;}
+    header {display:flex; justify-content:space-between; align-items:center; padding:20px 0; position:sticky; top:0; background:#0b1220; z-index:100;}
+    .logo {font-size:1.5rem; font-weight:700; color:#176fb5;}
+    nav a {margin-left:20px; font-weight:600; transition:0.3s;}
+    nav a:hover {color:#6c4bd3;}
+    .hero {display:flex; flex-wrap:wrap; align-items:center; padding:80px 0;}
+    .hero-text {flex:1;}
+    .hero-text h1 {font-size:3rem; margin-bottom:20px;}
+    .hero-text p {color:#aaa; margin-bottom:30px; font-size:1.1rem;}
+    .hero-btns button {padding:12px 20px; margin-right:15px; border:none; border-radius:8px; cursor:pointer; font-weight:700;}
+    .btn-primary {background:#176fb5; color:#fff;}
+    .btn-secondary {background:transparent; border:1px solid #555; color:#aaa;}
+    section {padding:60px 0;}
+    h2 {font-size:2rem; margin-bottom:30px; color:#fff;}
+    .services-grid {display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:20px;}
+    .service {background:#1c1f2a; padding:25px; border-radius:12px; transition:0.3s;}
+    .service:hover {background:#176fb5;}
+    .service h4 {margin-bottom:10px;}
+    .service p {color:#ccc;}
+    .jobs-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;}
+    .job-card {background:#1c1f2a; padding:20px; border-radius:12px; transition:0.3s;}
+    .job-card:hover {background:#176fb5;}
+    .job-card h4 {margin-bottom:8px;}
+    .job-card p {color:#ccc; margin-bottom:12px;}
+    .pill {padding:6px 10px; border-radius:50px; background:rgba(23,111,181,0.3); color:#176fb5; font-weight:700; font-size:0.85rem;}
+    .contact-info {margin-top:20px; color:#ccc;}
+    .contact-info a {color:#176fb5;}
+    form {display:flex; flex-direction:column; max-width:500px;}
+    input, textarea {margin-bottom:15px; padding:12px; border-radius:8px; border:none;}
+    button.submit-btn {background:#176fb5; color:#fff; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:700;}
+    footer {text-align:center; padding:30px 0; color:#777; font-size:0.9rem; border-top:1px solid #222;}
+    @media(max-width:768px){.hero {flex-direction:column;}.hero-text h1 {font-size:2rem;} nav a {margin-left:10px;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">Jede Solutions LLC</div>
+      <nav>
+        <a href="#hero">Home</a>
+        <a href="#services">Services</a>
+        <a href="#jobs">Jobs</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero" id="hero">
+      <div class="hero-text">
+        <h1>Staffing Engineers Who Build Tomorrow</h1>
+        <p>Jede Solutions LLC connects companies with top-tier engineers in software, hardware, embedded systems, test, and medical devices.</p>
+        <div class="hero-btns">
+          <button class="btn-primary">Request Talent</button>
+          <button class="btn-secondary">Our Services</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <h2>Our Services</h2>
+      <div class="services-grid">
+        <div class="service"><h4>Embedded & Firmware</h4><p>RTOS, C/C++, Device Drivers, Medical Firmware</p></div>
+        <div class="service"><h4>Software Engineering</h4><p>Full-stack, Cloud, DevOps, ML</p></div>
+        <div class="service"><h4>Hardware & PCB</h4><p>PCB Design, FPGA, Analog, Systems</p></div>
+        <div class="service"><h4>Test & SDET</h4><p>Automation, Validation, QA</p></div>
+        <div class="service"><h4>Medical Device</h4><p>Regulatory, Verification, Compliance</p></div>
+        <div class="service"><h4>DevOps & Systems</h4><p>CI/CD, Cloud Infra, Monitoring</p></div>
+      </div>
+    </section>
+
+    <section id="jobs">
+      <h2>Open Positions</h2>
+      <div class="jobs-grid">
+        <div class="job-card">
+          <h4>Senior Embedded Firmware Engineer</h4>
+          <p>Remote / CA • Contract</p>
+          <p>Work on medical device firmware. 3-6 month contract.</p>
+          <span class="pill">Apply</span>
+        </div>
+        <div class="job-card">
+          <h4>Full-Stack Software Engineer</h4>
+          <p>San Francisco, CA • Full-time</p>
+          <p>Product team building cloud SaaS.</p>
+          <span class="pill">Apply</span>
+        </div>
+        <div class="job-card">
+          <h4>Test Automation Engineer (SDET)</h4>
+          <p>Austin, TX • Contract-to-hire</p>
+          <p>Build test frameworks and automation.</p>
+          <span class="pill">Apply</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <h2>About Jede Solutions</h2>
+      <p>We are engineers recruiting engineers. Our mission is to connect the right technical talent to companies quickly and reliably.</p>
+      <p>Our team evaluates technical skills, culture fit, and provides vetted shortlists for faster hiring.</p>
+      <div class="contact-info">
+        <p>Email: <a href="mailto:hr@jedesolutionsllc.com">hr@jedesolutionsllc.com</a></p>
+        <p>Phone: <a href="tel:+13413451179">341-345-1179</a></p>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Contact Us</h2>
+      <form action="https://formspree.io/f/FORM_ID" method="POST">
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="company" placeholder="Company">
+        <textarea name="message" placeholder="Your Message" rows="5"></textarea>
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Jede Solutions LLC — All rights reserved
+    </footer>
+  </div>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
