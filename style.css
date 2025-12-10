@@ -990,6 +990,24 @@ footer {
     width: 100%;
   }
 
+  /* Fix Hero Quote on Mobile */
+  .hero-quote {
+    font-size: 2.2rem;
+    margin: 0 10px 1.5rem 10px;
+  }
+
+  .hero-quote::before {
+    font-size: 3rem;
+    top: -25px;
+    left: -15px;
+  }
+
+  .hero-quote::after {
+    font-size: 3rem;
+    bottom: -15px;
+    right: -25px;
+  }
+
   .contact-form-container {
     padding: 24px;
   }
