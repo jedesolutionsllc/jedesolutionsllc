@@ -106,7 +106,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (window.jobsData) {
-    loadData(window.jobsData, 'jobs-container', renderJobCard, 'showMoreJobsBtn');
+    // Initialize Job Manager
+    initJobManager(window.jobsData);
   }
 
   // Handle resize to update "Show More" logic if needed
@@ -116,12 +117,119 @@ document.addEventListener('DOMContentLoaded', () => {
     resizeTimer = setTimeout(() => {
       // Re-render content to adjust for new screen size
       if (window.expertiseData) loadData(window.expertiseData, 'services-container', renderServiceCard, 'showMoreServicesBtn');
-      if (window.jobsData) loadData(window.jobsData, 'jobs-container', renderJobCard, 'showMoreJobsBtn');
+      // Jobs are handled by initJobManager which doesn't need re-init on resize for now, 
+      // but if we wanted to change itemsPerPage based on resize, we'd do it here.
     }, 250);
   });
 });
 
-// Generic Load Data Function
+// --- Job Manager (Search & Pagination) ---
+let jobState = {
+  data: [],
+  filteredData: [],
+  currentPage: 1,
+  itemsPerPage: 4, // Updated to 4 as requested
+  searchQuery: ''
+};
+
+function initJobManager(data) {
+  jobState.data = data;
+  jobState.filteredData = data;
+
+  const searchInput = document.getElementById('jobSearchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      jobState.searchQuery = e.target.value.toLowerCase();
+      jobState.currentPage = 1; // Reset to page 1 on search
+      filterJobs();
+    });
+  }
+
+  filterJobs();
+}
+
+function filterJobs() {
+  const query = jobState.searchQuery;
+  if (!query) {
+    jobState.filteredData = jobState.data;
+  } else {
+    jobState.filteredData = jobState.data.filter(job => {
+      return (
+        job.title.toLowerCase().includes(query) ||
+        job.location.toLowerCase().includes(query) ||
+        job.description.toLowerCase().includes(query)
+      );
+    });
+  }
+  renderJobs();
+  renderPagination();
+}
+
+function renderJobs() {
+  const container = document.getElementById('jobs-container');
+  if (!container) return;
+
+  container.innerHTML = '';
+
+  const start = (jobState.currentPage - 1) * jobState.itemsPerPage;
+  const end = start + jobState.itemsPerPage;
+  const pageItems = jobState.filteredData.slice(start, end);
+
+  if (pageItems.length === 0) {
+    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">No positions found matching your search.</div>';
+    return;
+  }
+
+  pageItems.forEach((item, index) => {
+    const card = renderJobCard(item);
+    container.appendChild(card);
+    // Animation
+    setTimeout(() => card.classList.add('active'), 50 * index);
+  });
+}
+
+function renderPagination() {
+  const container = document.getElementById('pagination-container');
+  if (!container) return;
+
+  container.innerHTML = '';
+  const totalPages = Math.ceil(jobState.filteredData.length / jobState.itemsPerPage);
+
+  if (totalPages <= 1) return; // Hide pagination if only 1 page
+
+  // Prev Button
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'pagination-btn';
+  prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+  prevBtn.disabled = jobState.currentPage === 1;
+  prevBtn.onclick = () => changePage(jobState.currentPage - 1);
+  container.appendChild(prevBtn);
+
+  // Page Numbers
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement('button');
+    btn.className = `pagination-btn ${i === jobState.currentPage ? 'active' : ''}`;
+    btn.textContent = i;
+    btn.onclick = () => changePage(i);
+    container.appendChild(btn);
+  }
+
+  // Next Button
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'pagination-btn';
+  nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+  nextBtn.disabled = jobState.currentPage === totalPages;
+  nextBtn.onclick = () => changePage(jobState.currentPage + 1);
+  container.appendChild(nextBtn);
+}
+
+function changePage(newPage) {
+  jobState.currentPage = newPage;
+  renderJobs();
+  renderPagination();
+  // Scroll to top of jobs section
+  document.getElementById('jobs').scrollIntoView({ behavior: 'smooth' });
+}
 function loadData(data, containerId, renderFunction, buttonId) {
   const container = document.getElementById(containerId);
   const button = document.getElementById(buttonId);

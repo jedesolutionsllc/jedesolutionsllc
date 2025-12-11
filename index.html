@@ -52,7 +52,7 @@
         <div class="hero-content reveal">
           <div class="hero-text">
             <h1 class="hero-quote">Staffing Engineers <br> Who Build Tomorrow</h1>
-            <p>Jade solutions LLC connects companies with elite engineering talent in software, hardware, embedded
+            <p>Jede solutions LLC connects companies with elite engineering talent in software, hardware, embedded
               systems,
               and medical devices.</p>
             <div class="hero-btns">
@@ -106,11 +106,22 @@
     <section id="jobs">
       <div class="container">
         <h2 class="reveal">Open <span>Positions</span></h2>
+
+        <!-- Search Bar -->
+        <div class="jobs-controls reveal">
+          <div class="search-wrapper glass">
+            <i class="fas fa-search"></i>
+            <input type="text" id="jobSearchInput" placeholder="Search by title, location, or keywords...">
+          </div>
+        </div>
+
         <div class="jobs-grid" id="jobs-container">
           <!-- Dynamic Content -->
         </div>
-        <div style="text-align: center; margin-top: 40px;">
-          <button id="showMoreJobsBtn" class="btn btn-secondary" style="display: none;">Show More</button>
+
+        <!-- Pagination -->
+        <div id="pagination-container" class="pagination-container reveal">
+          <!-- Dynamic Pagination -->
         </div>
       </div>
     </section>
