@@ -1,200 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jede Solutions LLC</title>
-  <style>
-    * {margin:0;padding:0;box-sizing:border-box;}
-    body {font-family: 'Inter', sans-serif; line-height:1.6; color:#fff; background:#0b1220;}
-    a {color:inherit; text-decoration:none;}
-    ul {list-style:none;}
-    img {max-width:100%; display:block;}
-    .container {max-width:1200px; margin:0 auto; padding:0 20px;}
-    header {display:flex; justify-content:space-between; align-items:center; padding:20px 0; position:sticky; top:0; background:#0b1220; z-index:100;}
-    .logo {font-size:1.5rem; font-weight:700; color:#176fb5;}
-    nav a {margin-left:20px; font-weight:600; transition:0.3s;}
-    nav a:hover {color:#6c4bd3;}
-    .hero {display:flex; flex-wrap:wrap; align-items:center; padding:80px 0;}
-    .hero-text {flex:1;}
-    .hero-text h1 {font-size:3rem; margin-bottom:20px;}
-    .hero-text p {color:#aaa; margin-bottom:30px; font-size:1.1rem;}
-    .hero-btns button {padding:12px 20px; margin-right:15px; border:none; border-radius:8px; cursor:pointer; font-weight:700; transition:0.3s;}
-    .btn-primary {background:#176fb5; color:#fff;}
-    .btn-primary:hover {background:#0d5a9c; transform:translateY(-2px);}
-    .btn-secondary {background:transparent; border:1px solid #555; color:#aaa;}
-    .btn-secondary:hover {border-color:#176fb5; color:#fff; transform:translateY(-2px);}
-    section {padding:60px 0;}
-    h2 {font-size:2rem; margin-bottom:30px; color:#fff;}
-    .services-grid {display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:20px;}
-    .service {background:#1c1f2a; padding:25px; border-radius:12px; transition:0.3s;}
-    .service:hover {background:#176fb5;}
-    .service h4 {margin-bottom:10px;}
-    .service p {color:#ccc;}
-    .jobs-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px;}
-    .job-card {background:#1c1f2a; padding:20px; border-radius:12px; transition:0.3s;}
-    .job-card:hover {background:#176fb5;}
-    .job-card h4 {margin-bottom:8px;}
-    .job-card p {color:#ccc; margin-bottom:12px;}
-    .pill {display:inline-block; padding:6px 10px; border-radius:50px; background:rgba(23,111,181,0.3); color:#176fb5; font-weight:700; font-size:0.85rem; cursor:pointer; transition:0.3s;}
-    .pill:hover {background:rgba(23,111,181,0.5); color:#0a3d6b; transform:translateY(-2px);}
-    .job-card:hover .pill {color:#fff; background:rgba(255,255,255,0.2);}
-    .contact-info {margin-top:20px; color:#ccc;}
-    .contact-info a {color:#176fb5;}
-    form {display:flex; flex-direction:column; max-width:500px;}
-    input, textarea {margin-bottom:15px; padding:12px; border-radius:8px; border:none; background:#1c1f2a; color:#fff;}
-    input::placeholder, textarea::placeholder {color:#888;}
-    button.submit-btn {background:#176fb5; color:#fff; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:700; transition:0.3s;}
-    button.submit-btn:hover {background:#0d5a9c; transform:translateY(-2px);}
-    footer {text-align:center; padding:30px 0; color:#777; font-size:0.9rem; border-top:1px solid #222;}
-    @media(max-width:768px){.hero {flex-direction:column;}.hero-text h1 {font-size:2rem;} nav a {margin-left:10px;}}
-    .smooth-scroll {scroll-behavior: smooth;}
-  </style>
+  <title>Jede Solutions LLC | Elite Engineering Staffing & Recruitment</title>
+  <meta name="description"
+    content="Jede Solutions LLC connects innovative companies with top-tier engineering talent in Embedded Systems, Software, Hardware, and Medical Devices. Your partner for technical recruitment.">
+  <meta name="keywords"
+    content="Engineering Staffing, Technical Recruitment, Embedded Systems, Software Engineers, Medical Device Staffing, Hardware Engineering, Jede Solutions">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="smooth-scroll">
-  <div class="container">
-    <header>
-      <div class="logo">Jede Solutions LLC</div>
-      <nav>
-        <a href="#hero">Home</a>
+
+<body>
+  <header>
+    <div class="container">
+      <a href="#" class="logo">
+        <img src="logo.png" alt="Jede Solutions LLC">
+      </a>
+
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-links">
+        <a href="#hero" class="active">Home</a>
         <a href="#services">Services</a>
         <a href="#jobs">Jobs</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
       </nav>
-    </header>
+    </div>
+  </header>
 
+  <main>
     <section class="hero" id="hero">
-      <div class="hero-text">
-        <h1>Staffing Engineers Who Build Tomorrow</h1>
-        <p>Jede Solutions LLC connects companies with top-tier engineers in software, hardware, embedded systems, test, and medical devices.</p>
-        <div class="hero-btns">
-          <button class="btn-primary" id="requestTalentBtn">Request Talent</button>
-          <button class="btn-secondary" id="servicesBtn">Our Services</button>
+      <div class="hero-bg">
+        <!-- Professional recruitment/office image -->
+        <img src="bgimg.avif" alt="Professional Team Meeting">
+      </div>
+      <div class="container">
+        <div class="hero-content reveal">
+          <div class="hero-text">
+            <h1 class="hero-quote">Staffing Engineers <br> Who Build Tomorrow</h1>
+            <p>Jede solutions LLC connects companies with elite engineering talent in software, hardware, embedded
+              systems,
+              and medical devices.</p>
+            <div class="hero-btns">
+              <button class="btn btn-primary" id="requestTalentBtn">Request Talent</button>
+              <button class="btn btn-secondary" id="servicesBtn">Explore Services</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="marquee-container">
+        <div class="marquee-content">
+          <!-- Duplicated content for infinite loop -->
+          <div class="marquee-item"><i class="fas fa-microchip"></i> Embedded Systems</div>
+          <div class="marquee-item"><i class="fas fa-code"></i> Software Engineering</div>
+          <div class="marquee-item"><i class="fas fa-heartbeat"></i> Medical Devices</div>
+          <div class="marquee-item"><i class="fas fa-memory"></i> Firmware Development</div>
+          <div class="marquee-item"><i class="fas fa-layer-group"></i> PCB Design</div>
+          <div class="marquee-item"><i class="fas fa-vial"></i> Test Automation</div>
+          <div class="marquee-item"><i class="fas fa-server"></i> DevOps</div>
+          <div class="marquee-item"><i class="fas fa-cloud"></i> Cloud Architecture</div>
+          <div class="marquee-item"><i class="fas fa-file-contract"></i> Regulatory Affairs</div>
+          <div class="marquee-item"><i class="fas fa-check-double"></i> System Validation</div>
+          <!-- Duplicate again for seamless loop -->
+          <div class="marquee-item"><i class="fas fa-microchip"></i> Embedded Systems</div>
+          <div class="marquee-item"><i class="fas fa-code"></i> Software Engineering</div>
+          <div class="marquee-item"><i class="fas fa-heartbeat"></i> Medical Devices</div>
+          <div class="marquee-item"><i class="fas fa-memory"></i> Firmware Development</div>
+          <div class="marquee-item"><i class="fas fa-layer-group"></i> PCB Design</div>
+          <div class="marquee-item"><i class="fas fa-vial"></i> Test Automation</div>
+          <div class="marquee-item"><i class="fas fa-server"></i> DevOps</div>
+          <div class="marquee-item"><i class="fas fa-cloud"></i> Cloud Architecture</div>
+          <div class="marquee-item"><i class="fas fa-file-contract"></i> Regulatory Affairs</div>
+          <div class="marquee-item"><i class="fas fa-check-double"></i> System Validation</div>
         </div>
       </div>
     </section>
 
     <section id="services">
-      <h2>Our Services</h2>
-      <div class="services-grid">
-        <div class="service"><h4>Embedded & Firmware</h4><p>RTOS, C/C++, Device Drivers, Medical Firmware</p></div>
-        <div class="service"><h4>Software Engineering</h4><p>Full-stack, Cloud, DevOps, ML</p></div>
-        <div class="service"><h4>Hardware & PCB</h4><p>PCB Design, FPGA, Analog, Systems</p></div>
-        <div class="service"><h4>Test & SDET</h4><p>Automation, Validation, QA</p></div>
-        <div class="service"><h4>Medical Device</h4><p>Regulatory, Verification, Compliance</p></div>
-        <div class="service"><h4>DevOps & Systems</h4><p>CI/CD, Cloud Infra, Monitoring</p></div>
+      <div class="container">
+        <h2 class="reveal">Our <span>Expertise</span></h2>
+        <div class="services-grid" id="services-container">
+          <!-- Dynamic Content -->
+        </div>
+        <div style="text-align: center; margin-top: 40px;">
+          <button id="showMoreServicesBtn" class="btn btn-secondary" style="display: none;">Show More</button>
+        </div>
       </div>
     </section>
 
     <section id="jobs">
-      <h2>Open Positions</h2>
-      <div class="jobs-grid">
-        <div class="job-card">
-          <h4>Senior Embedded Firmware Engineer</h4>
-          <p>Remote / CA • Contract</p>
-          <p>Work on medical device firmware. 3-6 month contract.</p>
-          <span class="pill" onclick="applyForJob('Senior Embedded Firmware Engineer')">Apply</span>
+      <div class="container">
+        <h2 class="reveal">Open <span>Positions</span></h2>
+
+        <!-- Search Bar -->
+        <div class="jobs-controls reveal">
+          <div class="search-wrapper glass">
+            <i class="fas fa-search"></i>
+            <input type="text" id="jobSearchInput" placeholder="Search by title, location, or keywords...">
+          </div>
         </div>
-        <div class="job-card">
-          <h4>Full-Stack Software Engineer</h4>
-          <p>San Francisco, CA • Full-time</p>
-          <p>Product team building cloud SaaS.</p>
-          <span class="pill" onclick="applyForJob('Full-Stack Software Engineer')">Apply</span>
+
+        <div class="jobs-grid" id="jobs-container">
+          <!-- Dynamic Content -->
         </div>
-        <div class="job-card">
-          <h4>Test Automation Engineer (SDET)</h4>
-          <p>Austin, TX • Contract-to-hire</p>
-          <p>Build test frameworks and automation.</p>
-          <span class="pill" onclick="applyForJob('Test Automation Engineer (SDET)')">Apply</span>
+
+        <!-- Pagination -->
+        <div id="pagination-container" class="pagination-container reveal">
+          <!-- Dynamic Pagination -->
         </div>
       </div>
     </section>
 
-    <section id="about" class="about">
-      <h2>About Jede Solutions</h2>
-      <p>We are engineers recruiting engineers. Our mission is to connect the right technical talent to companies quickly and reliably.</p>
-      <p>Our team evaluates technical skills, culture fit, and provides vetted shortlists for faster hiring.</p>
-      <div class="contact-info">
-        <p>Email: <a href="mailto:hr@jedesolutionsllc.com">hr@jedesolutionsllc.com</a></p>
-        <p>Phone: <a href="tel:+13413451179">341-345-1179</a></p>
+    <section id="about">
+      <div class="container">
+        <h2 class="reveal">About <span>Jede Solutions</span></h2>
+
+        <div class="bento-grid">
+          <!-- Mission Card -->
+          <div class="bento-card glass reveal mission-card">
+            <h3>Our Mission</h3>
+            <p>To bridge the gap between world-class engineering talent and the companies building the future. We don't
+              just fill positions; we build teams that innovate.</p>
+          </div>
+
+          <!-- Image Card 1: Collaboration -->
+          <div class="bento-card reveal image-card" style="background-image: url('bento1.avif');">
+            <div class="overlay">
+              <span>Collaboration at Core</span>
+            </div>
+          </div>
+
+          <!-- Why Us Card -->
+          <div class="bento-card glass reveal why-us-card">
+            <h3>Why Choose Us?</h3>
+            <ul>
+              <li><i class="fas fa-check-circle"></i> Elite Talent Network</li>
+              <li><i class="fas fa-check-circle"></i> 48-Hour Turnaround</li>
+              <li><i class="fas fa-check-circle"></i> Industry Specialized</li>
+            </ul>
+          </div>
+
+          <!-- Image Card 2: Tech -->
+          <div class="bento-card reveal image-card" style="background-image: url('bento2.avif');">
+            <div class="overlay">
+              <span>Future Focused</span>
+            </div>
+          </div>
+
+          <!-- Stat Card -->
+          <div class="bento-card glass reveal stat-card">
+            <div class="stat-number">Growing</div>
+            <div class="stat-label">Talent Network</div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section id="contact">
-      <h2>Contact Us</h2>
-      <form id="contactForm">
-        <input type="text" name="name" placeholder="Full Name" required>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="text" name="company" placeholder="Company">
-        <textarea name="message" placeholder="Your Message" rows="5"></textarea>
-        <button type="submit" class="submit-btn">Send Message</button>
-      </form>
+      <div class="container">
+        <div class="contact-wrapper">
+          <!-- Left Column: Professional Content -->
+          <div class="contact-info reveal">
+            <h2>Partner with <span>Excellence</span></h2>
+            <p class="lead-text">Whether you're scaling a critical engineering team or seeking your next career-defining
+              role, we're here to make it happen.</p>
+
+            <div class="contact-details">
+              <div class="contact-item">
+                <div class="icon-box"><i class="fas fa-envelope"></i></div>
+                <div>
+                  <h5>Email Us</h5>
+                  <a href="mailto:hr@jedesolutionsllc.com">hr@jedesolutionsllc.com</a>
+                </div>
+              </div>
+
+              <div class="contact-item">
+                <div class="icon-box"><i class="fas fa-phone-alt"></i></div>
+                <div>
+                  <h5>Call Us</h5>
+                  <a href="tel:+13413451179">341-345-1179</a>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+          <!-- Right Column: Compact Form -->
+          <div class="contact-form-wrapper reveal">
+            <div class="contact-form-container glass">
+              <h3>Get in Touch</h3>
+              <form id="contactForm">
+                <div class="form-group">
+                  <input type="text" id="name" required placeholder=" ">
+                  <label for="name">Full Name</label>
+                </div>
+                <div class="form-group">
+                  <input type="email" id="email" required placeholder=" ">
+                  <label for="email">Email Address</label>
+                </div>
+                <div class="form-group">
+                  <input type="text" id="company" placeholder=" ">
+                  <label for="company">Company</label>
+                </div>
+                <div class="form-group">
+                  <textarea id="message" rows="4" required placeholder=" "></textarea>
+                  <label for="message">How can we help?</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
+  </main>
 
-    <footer>
+  <footer>
+    <div class="container">
       © <span id="year"></span> Jede Solutions LLC — All rights reserved
-    </footer>
-  </div>
-  <script>
-    // Set current year in footer
-    document.getElementById('year').textContent = new Date().getFullYear();
+    </div>
+  </footer>
 
-    // Button click handlers
-    document.getElementById('requestTalentBtn').addEventListener('click', function() {
-      document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    document.getElementById('servicesBtn').addEventListener('click', function() {
-      document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    // Job application function
-    function applyForJob(jobTitle) {
-      const email = 'hr@jedesolutionsllc.com';
-      const subject = `Job Application: ${jobTitle}`;
-      const body = `Dear Jede Solutions Hiring Team,\n\nI am interested in applying for the ${jobTitle} position. Please find my details below:\n\nName: \nEmail: \nPhone: \nLinkedIn/Portfolio: \n\nThank you,\n[Your Name]`;
-      
-      window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    }
-
-    // Contact form submission
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Get form data
-      const name = this.name.value;
-      const email = this.email.value;
-      const company = this.company.value;
-      const message = this.message.value;
-      
-      // Create email content
-      const mailto = 'hr@jedesolutionsllc.com';
-      const subject = `Contact Form Submission from ${name}`;
-      const body = `Name: ${name}\nEmail: ${email}\nCompany: ${company}\n\nMessage:\n${message}`;
-      
-      // Open email client
-      window.location.href = `mailto:${mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      
-      // Optional: Reset form
-      this.reset();
-      
-      // Optional: Show confirmation
-      alert('Your email client will open with a pre-filled message. Please send it to contact us.');
-    });
-
-    // Smooth scroll for navigation links
-    document.querySelectorAll('nav a').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        if (targetId !== '#') {
-          document.querySelector(targetId).scrollIntoView({
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
-  </script>
+  <script src="expertise.js"></script>
+  <script src="jobs.js"></script>
+  <script src="script.js"></script>
 </body>
+
 </html>
