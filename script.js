@@ -1,15 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile Menu Toggle
   const hamburger = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
   const navLinksItems = document.querySelectorAll('.nav-links a');
 
-  if (hamburger) {
+  function setMenuOpen(isOpen) {
+    if (hamburger) {
+      hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+  }
+
+  if (hamburger && navLinks) {
     hamburger.addEventListener('click', () => {
       navLinks.classList.toggle('active');
       hamburger.classList.toggle('active');
+      setMenuOpen(navLinks.classList.contains('active'));
 
-      // Animate hamburger
       const spans = hamburger.querySelectorAll('span');
       if (navLinks.classList.contains('active')) {
         spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
@@ -21,23 +26,25 @@ document.addEventListener('DOMContentLoaded', () => {
         spans[2].style.transform = 'none';
       }
     });
+    setMenuOpen(false);
   }
 
-  // Close mobile menu when clicking a link
   navLinksItems.forEach(link => {
     link.addEventListener('click', () => {
-      navLinks.classList.remove('active');
-      hamburger.classList.remove('active');
-
-      // Reset hamburger
-      const spans = hamburger.querySelectorAll('span');
-      spans[0].style.transform = 'none';
-      spans[1].style.opacity = '1';
-      spans[2].style.transform = 'none';
+      if (navLinks) {
+        navLinks.classList.remove('active');
+      }
+      if (hamburger) {
+        hamburger.classList.remove('active');
+        const spans = hamburger.querySelectorAll('span');
+        spans[0].style.transform = 'none';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = 'none';
+      }
+      setMenuOpen(false);
     });
   });
 
-  // Scroll Reveal Animation
   const revealElements = document.querySelectorAll('.reveal');
 
   const revealObserver = new IntersectionObserver((entries) => {
@@ -48,18 +55,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, {
     threshold: 0.1,
-    rootMargin: "0px 0px -50px 0px"
+    rootMargin: '0px 0px -50px 0px'
   });
 
   revealElements.forEach(el => revealObserver.observe(el));
 
-  // Set current year in footer
   const yearEl = document.getElementById('year');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
 
-  // Button click handlers
   const requestTalentBtn = document.getElementById('requestTalentBtn');
   if (requestTalentBtn) {
     requestTalentBtn.addEventListener('click', () => {
@@ -74,65 +79,176 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Contact form submission
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
-    contactForm.addEventListener('submit', function (e) {
+    const contactSubmitBtn = document.getElementById('contactSubmitBtn');
+    const contactFormStatus = document.getElementById('contactFormStatus');
+
+    function getContactApiUrl() {
+      const meta = document.querySelector('meta[name="contact-api-url"]');
+      const raw = meta?.getAttribute('content')?.trim() ?? '';
+      if (!raw) return '/api/contact';
+      const base = raw.replace(/\/$/, '');
+      if (base.endsWith('/api/contact')) return base;
+      return `${base}/api/contact`;
+    }
+
+    contactForm.addEventListener('submit', async function (e) {
       e.preventDefault();
 
-      // Get form data
-      const name = this.name.value;
-      const email = this.email.value;
-      const company = this.company.value;
-      const message = this.message.value;
+      const apiUrl = getContactApiUrl();
 
-      // Create email content
-      const mailto = 'hr@jedesolutionsllc.com';
-      const subject = `Contact Form Submission from ${name}`;
-      const body = `Name: ${name}\nEmail: ${email}\nCompany: ${company}\n\nMessage:\n${message}`;
+      if (contactFormStatus) {
+        contactFormStatus.textContent = '';
+        contactFormStatus.classList.remove('is-error', 'is-success');
+      }
 
-      // Open email client
-      window.location.href = `mailto:${mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const fd = new FormData(this);
+      const name = String(fd.get('name') ?? '').trim();
+      const email = String(fd.get('email') ?? '').trim();
+      const company = String(fd.get('company') ?? '').trim();
+      const message = String(fd.get('message') ?? '').trim();
+      const company_website = String(fd.get('company_website') ?? '').trim();
 
-      // Reset form
-      this.reset();
+      const originalBtnText = contactSubmitBtn ? contactSubmitBtn.textContent : '';
+      if (contactSubmitBtn) {
+        contactSubmitBtn.disabled = true;
+        contactSubmitBtn.textContent = 'Sending…';
+      }
+
+      try {
+        const res = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name,
+            email,
+            company,
+            message,
+            company_website
+          })
+        });
+
+        let data = {};
+        try {
+          data = await res.json();
+        } catch {
+          data = {};
+        }
+
+        if (!res.ok || !data.ok) {
+          const msg =
+            (data && data.error) ||
+            (res.status === 403
+              ? 'This site cannot submit from this page. Please contact us by email.'
+              : 'Something went wrong. Please try again or email hr@jedesolutionsllc.com.');
+          if (contactFormStatus) {
+            contactFormStatus.textContent = msg;
+            contactFormStatus.classList.add('is-error');
+          }
+          return;
+        }
+
+        this.reset();
+        if (contactFormStatus) {
+          contactFormStatus.textContent =
+            'Thank you — your message was sent. We will get back to you soon.';
+          contactFormStatus.classList.add('is-success');
+        }
+      } catch {
+        if (contactFormStatus) {
+          contactFormStatus.textContent =
+            'Could not reach the server. If you are viewing this file locally, deploy to Vercel or set contact-api-url in the page meta tag.';
+          contactFormStatus.classList.add('is-error');
+        }
+      } finally {
+        if (contactSubmitBtn) {
+          contactSubmitBtn.disabled = false;
+          contactSubmitBtn.textContent = originalBtnText;
+        }
+      }
     });
   }
 
-  // Dynamic Content Loading
-  // Using global variables from included scripts to avoid CORS issues with local file opening
   if (window.expertiseData) {
     loadData(window.expertiseData, 'services-container', renderServiceCard, 'showMoreServicesBtn');
   }
 
   if (window.jobsData) {
-    // Initialize Job Manager
     initJobManager(window.jobsData);
   }
 
-  // Handle resize to update "Show More" logic if needed
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      // Re-render content to adjust for new screen size
-      if (window.expertiseData) loadData(window.expertiseData, 'services-container', renderServiceCard, 'showMoreServicesBtn');
-      // Jobs are handled by initJobManager which doesn't need re-init on resize for now, 
-      // but if we wanted to change itemsPerPage based on resize, we'd do it here.
+      if (window.expertiseData) {
+        loadData(window.expertiseData, 'services-container', renderServiceCard, 'showMoreServicesBtn');
+      }
     }, 250);
   });
+
+  initSectionNavHighlight();
 });
 
-// --- Job Manager (Search & Pagination) ---
+function initSectionNavHighlight() {
+  const sectionIds = ['hero', 'services', 'jobs', 'about', 'contact'];
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  if (!navLinks.length) return;
+
+  const sections = sectionIds
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+
+  if (!sections.length) return;
+
+  const setActive = (id) => {
+    navLinks.forEach(a => {
+      const href = a.getAttribute('href');
+      a.classList.toggle('active', href === `#${id}`);
+    });
+  };
+
+  const headerVar = getComputedStyle(document.documentElement)
+    .getPropertyValue('--header-height')
+    .trim()
+    .replace('px', '');
+  const headerPx = Math.max(0, parseFloat(headerVar) || 90);
+  const topOffset = Math.round(headerPx + 6);
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+      if (visible[0]) {
+        const id = visible[0].target.getAttribute('id');
+        if (id) setActive(id);
+      }
+    },
+    {
+      threshold: [0.15, 0.3, 0.45, 0.6],
+      rootMargin: `-${topOffset}px 0px -55% 0px`
+    }
+  );
+
+  sections.forEach(s => observer.observe(s));
+}
+
 let jobState = {
   data: [],
   filteredData: [],
   currentPage: 1,
-  itemsPerPage: 4, // Updated to 4 as requested
+  itemsPerPage: 4,
   searchQuery: ''
 };
 
+let jobManagerInitialized = false;
+
 function initJobManager(data) {
+  if (jobManagerInitialized) return;
+  jobManagerInitialized = true;
+
   jobState.data = data;
   jobState.filteredData = data;
 
@@ -140,7 +256,7 @@ function initJobManager(data) {
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       jobState.searchQuery = e.target.value.toLowerCase();
-      jobState.currentPage = 1; // Reset to page 1 on search
+      jobState.currentPage = 1;
       filterJobs();
     });
   }
@@ -176,14 +292,16 @@ function renderJobs() {
   const pageItems = jobState.filteredData.slice(start, end);
 
   if (pageItems.length === 0) {
-    container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">No positions found matching your search.</div>';
+    const empty = document.createElement('div');
+    empty.className = 'jobs-empty-state';
+    empty.textContent = 'No positions found matching your search.';
+    container.appendChild(empty);
     return;
   }
 
   pageItems.forEach((item, index) => {
     const card = renderJobCard(item);
     container.appendChild(card);
-    // Animation
     setTimeout(() => card.classList.add('active'), 50 * index);
   });
 }
@@ -195,31 +313,36 @@ function renderPagination() {
   container.innerHTML = '';
   const totalPages = Math.ceil(jobState.filteredData.length / jobState.itemsPerPage);
 
-  if (totalPages <= 1) return; // Hide pagination if only 1 page
+  if (totalPages <= 1) return;
 
-  // Prev Button
   const prevBtn = document.createElement('button');
+  prevBtn.type = 'button';
   prevBtn.className = 'pagination-btn';
-  prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+  prevBtn.setAttribute('aria-label', 'Previous page');
+  prevBtn.innerHTML = '<i class="fas fa-chevron-left" aria-hidden="true"></i>';
   prevBtn.disabled = jobState.currentPage === 1;
-  prevBtn.onclick = () => changePage(jobState.currentPage - 1);
+  prevBtn.addEventListener('click', () => changePage(jobState.currentPage - 1));
   container.appendChild(prevBtn);
 
-  // Page Numbers
   for (let i = 1; i <= totalPages; i++) {
     const btn = document.createElement('button');
+    btn.type = 'button';
     btn.className = `pagination-btn ${i === jobState.currentPage ? 'active' : ''}`;
-    btn.textContent = i;
-    btn.onclick = () => changePage(i);
+    btn.textContent = String(i);
+    if (i === jobState.currentPage) {
+      btn.setAttribute('aria-current', 'page');
+    }
+    btn.addEventListener('click', () => changePage(i));
     container.appendChild(btn);
   }
 
-  // Next Button
   const nextBtn = document.createElement('button');
+  nextBtn.type = 'button';
   nextBtn.className = 'pagination-btn';
-  nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+  nextBtn.setAttribute('aria-label', 'Next page');
+  nextBtn.innerHTML = '<i class="fas fa-chevron-right" aria-hidden="true"></i>';
   nextBtn.disabled = jobState.currentPage === totalPages;
-  nextBtn.onclick = () => changePage(jobState.currentPage + 1);
+  nextBtn.addEventListener('click', () => changePage(jobState.currentPage + 1));
   container.appendChild(nextBtn);
 }
 
@@ -227,34 +350,34 @@ function changePage(newPage) {
   jobState.currentPage = newPage;
   renderJobs();
   renderPagination();
-  // Scroll to top of jobs section
   document.getElementById('jobs').scrollIntoView({ behavior: 'smooth' });
 }
+
 function loadData(data, containerId, renderFunction, buttonId) {
   const container = document.getElementById(containerId);
   const button = document.getElementById(buttonId);
 
   if (!container) return;
 
-  // Determine initial count based on screen size
   const isMobile = window.innerWidth < 768;
   const initialCount = isMobile ? 3 : 6;
 
-  // Clear container to prevent duplication on resize
   container.innerHTML = '';
 
-  // Render initial items
-  renderItems(data.slice(0, initialCount), container, renderFunction);
-
-  // Handle "Show More" button
-  if (data.length > initialCount) {
-    button.style.display = 'inline-block';
-    button.onclick = () => {
-      // Render remaining items
-      renderItems(data.slice(initialCount), container, renderFunction);
-      button.style.display = 'none'; // Hide button after expanding
-    };
+  if (button) {
+    button.onclick = null;
+    if (data.length > initialCount) {
+      button.style.display = 'inline-block';
+      button.onclick = () => {
+        renderItems(data.slice(initialCount), container, renderFunction);
+        button.style.display = 'none';
+      };
+    } else {
+      button.style.display = 'none';
+    }
   }
+
+  renderItems(data.slice(0, initialCount), container, renderFunction);
 }
 
 function renderItems(items, container, renderFunction) {
@@ -262,9 +385,8 @@ function renderItems(items, container, renderFunction) {
     const card = renderFunction(item, index);
     container.appendChild(card);
 
-    // Trigger animation for new items
     setTimeout(() => {
-      card.classList.add('active'); // Assuming 'reveal' class logic handles opacity
+      card.classList.add('active');
     }, 100 * index);
   });
 }
@@ -272,16 +394,24 @@ function renderItems(items, container, renderFunction) {
 function renderServiceCard(item) {
   const div = document.createElement('div');
   div.className = 'card glass reveal service-card-artistic';
-  // Apply dynamic color for hover/border effect
   div.style.setProperty('--accent-color', item.color);
 
-  div.innerHTML = `
-    <div class="icon-wrapper">
-      <i class="fas ${item.icon}"></i>
-    </div>
-    <h4>${item.title}</h4>
-    <p>${item.description}</p>
-  `;
+  const iconWrap = document.createElement('div');
+  iconWrap.className = 'icon-wrapper';
+  const icon = document.createElement('i');
+  icon.className = `fas ${item.icon}`;
+  icon.setAttribute('aria-hidden', 'true');
+  iconWrap.appendChild(icon);
+
+  const h4 = document.createElement('h4');
+  h4.textContent = item.title;
+
+  const p = document.createElement('p');
+  p.textContent = item.description;
+
+  div.appendChild(iconWrap);
+  div.appendChild(h4);
+  div.appendChild(p);
   return div;
 }
 
@@ -289,7 +419,6 @@ function renderJobCard(item) {
   const div = document.createElement('div');
   div.className = 'card glass reveal job-card';
 
-  // Construct Mailto Link
   const subject = encodeURIComponent(`Job Application: ${item.title}`);
   const body = encodeURIComponent(`Dear Jede Solutions Hiring Team,
 
@@ -303,28 +432,51 @@ LinkedIn/Portfolio:
 Thank you,
 [Your Name]`);
 
-  const mailtoLink = `mailto:hr@jedesolutionsllc.com?subject=${subject}&body=${body}`;
+  const header = document.createElement('div');
+  header.className = 'job-header';
 
-  div.innerHTML = `
-    <div class="job-header">
-      <h4>${item.title}</h4>
-      <div class="job-meta">
-        <i class="fas fa-map-marker-alt"></i> ${item.location}
-        <span class="separator">•</span>
-        <span class="job-type">${item.type || 'Full-time'}</span>
-      </div>
-    </div>
-    <p>${item.description}</p>
-    <a href="${mailtoLink}" class="btn-text">Apply Now <i class="fas fa-arrow-right"></i></a>
-  `;
+  const h4 = document.createElement('h4');
+  h4.textContent = item.title;
+
+  const meta = document.createElement('div');
+  meta.className = 'job-meta';
+
+  const locIcon = document.createElement('i');
+  locIcon.className = 'fas fa-map-marker-alt';
+  locIcon.setAttribute('aria-hidden', 'true');
+  meta.appendChild(locIcon);
+
+  meta.appendChild(document.createTextNode(` ${item.location}`));
+
+  const sep = document.createElement('span');
+  sep.className = 'separator';
+  sep.setAttribute('aria-hidden', 'true');
+  sep.textContent = '•';
+
+  const typeSpan = document.createElement('span');
+  typeSpan.className = 'job-type';
+  typeSpan.textContent = item.type || 'Full-time';
+
+  meta.appendChild(sep);
+  meta.appendChild(typeSpan);
+
+  header.appendChild(h4);
+  header.appendChild(meta);
+
+  const p = document.createElement('p');
+  p.textContent = item.description;
+
+  const a = document.createElement('a');
+  a.href = `mailto:hr@jedesolutionsllc.com?subject=${subject}&body=${body}`;
+  a.className = 'btn-text';
+  a.appendChild(document.createTextNode('Apply Now '));
+  const arrow = document.createElement('i');
+  arrow.className = 'fas fa-arrow-right';
+  arrow.setAttribute('aria-hidden', 'true');
+  a.appendChild(arrow);
+
+  div.appendChild(header);
+  div.appendChild(p);
+  div.appendChild(a);
   return div;
 }
-
-// Job application function (global scope needed for onclick)
-window.applyForJob = function (jobTitle) {
-  const email = 'hr@jedesolutionsllc.com';
-  const subject = `Job Application: ${jobTitle}`;
-  const body = `Dear Jede Solutions Hiring Team,\n\nI am interested in applying for the ${jobTitle} position. Please find my details below:\n\nName: \nEmail: \nPhone: \nLinkedIn/Portfolio: \n\nThank you,\n[Your Name]`;
-
-  window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-};

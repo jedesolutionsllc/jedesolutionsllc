@@ -3,35 +3,55 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Jede Solutions LLC | Elite Engineering Staffing & Recruitment</title>
   <meta name="description"
     content="Jede Solutions LLC connects innovative companies with top-tier engineering talent in Embedded Systems, Software, Hardware, and Medical Devices. Your partner for technical recruitment.">
   <meta name="keywords"
     content="Engineering Staffing, Technical Recruitment, Embedded Systems, Software Engineers, Medical Device Staffing, Hardware Engineering, Jede Solutions">
+  <link rel="canonical" href="https://www.jedesolutionsllc.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Jede Solutions LLC | Elite Engineering Staffing & Recruitment">
+  <meta property="og:description"
+    content="Jede Solutions LLC connects innovative companies with top-tier engineering talent in Embedded Systems, Software, Hardware, and Medical Devices.">
+  <meta property="og:url" content="https://www.jedesolutionsllc.com/">
+  <meta property="og:image" content="https://www.jedesolutionsllc.com/logo.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Jede Solutions LLC | Elite Engineering Staffing & Recruitment">
+  <meta name="twitter:description"
+    content="Jede Solutions LLC connects innovative companies with top-tier engineering talent in Embedded Systems, Software, Hardware, and Medical Devices.">
+  <meta name="twitter:image" content="https://www.jedesolutionsllc.com/logo.png">
+  <meta name="contact-api-url" content="">
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="logo.png">
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer">
 </head>
 
 <body>
+  <a class="visually-hidden" href="#main">Skip to main content</a>
   <header>
     <div class="container">
-      <a href="#" class="logo">
+      <a href="#hero" class="logo">
         <img src="logo.png" alt="Jede Solutions LLC">
       </a>
 
-      <button class="hamburger" aria-label="Toggle menu">
+      <button class="hamburger" type="button" aria-label="Toggle menu" aria-expanded="false"
+        aria-controls="primary-navigation">
         <span></span>
         <span></span>
         <span></span>
       </button>
 
-      <nav class="nav-links">
+      <nav class="nav-links" id="primary-navigation" aria-label="Primary">
         <a href="#hero" class="active">Home</a>
         <a href="#services">Services</a>
         <a href="#jobs">Jobs</a>
@@ -41,7 +61,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main">
     <section class="hero" id="hero">
       <div class="hero-bg">
         <!-- Professional recruitment/office image -->
@@ -55,9 +75,10 @@
               systems,
               and medical devices.</p>
             <div class="hero-btns">
-              <button class="btn btn-primary" id="requestTalentBtn">Request Talent</button>
-              <button class="btn btn-secondary" id="servicesBtn">Explore Services</button>
+              <button type="button" class="btn btn-primary" id="requestTalentBtn">Request Talent</button>
+              <button type="button" class="btn btn-secondary" id="servicesBtn">Explore Services</button>
             </div>
+            <p class="hero-aux reveal"><a href="#jobs" class="hero-aux-link">View open positions</a></p>
           </div>
         </div>
       </div>
@@ -65,27 +86,27 @@
       <div class="marquee-container">
         <div class="marquee-content">
           <!-- Duplicated content for infinite loop -->
-          <div class="marquee-item"><i class="fas fa-microchip"></i> Embedded Systems</div>
-          <div class="marquee-item"><i class="fas fa-code"></i> Software Engineering</div>
-          <div class="marquee-item"><i class="fas fa-heartbeat"></i> Medical Devices</div>
-          <div class="marquee-item"><i class="fas fa-memory"></i> Firmware Development</div>
-          <div class="marquee-item"><i class="fas fa-layer-group"></i> PCB Design</div>
-          <div class="marquee-item"><i class="fas fa-vial"></i> Test Automation</div>
-          <div class="marquee-item"><i class="fas fa-server"></i> DevOps</div>
-          <div class="marquee-item"><i class="fas fa-cloud"></i> Cloud Architecture</div>
-          <div class="marquee-item"><i class="fas fa-file-contract"></i> Regulatory Affairs</div>
-          <div class="marquee-item"><i class="fas fa-check-double"></i> System Validation</div>
+          <div class="marquee-item"><i class="fas fa-microchip" aria-hidden="true"></i> Embedded Systems</div>
+          <div class="marquee-item"><i class="fas fa-code" aria-hidden="true"></i> Software Engineering</div>
+          <div class="marquee-item"><i class="fas fa-heartbeat" aria-hidden="true"></i> Medical Devices</div>
+          <div class="marquee-item"><i class="fas fa-memory" aria-hidden="true"></i> Firmware Development</div>
+          <div class="marquee-item"><i class="fas fa-layer-group" aria-hidden="true"></i> PCB Design</div>
+          <div class="marquee-item"><i class="fas fa-vial" aria-hidden="true"></i> Test Automation</div>
+          <div class="marquee-item"><i class="fas fa-server" aria-hidden="true"></i> DevOps</div>
+          <div class="marquee-item"><i class="fas fa-cloud" aria-hidden="true"></i> Cloud Architecture</div>
+          <div class="marquee-item"><i class="fas fa-file-contract" aria-hidden="true"></i> Regulatory Affairs</div>
+          <div class="marquee-item"><i class="fas fa-check-double" aria-hidden="true"></i> System Validation</div>
           <!-- Duplicate again for seamless loop -->
-          <div class="marquee-item"><i class="fas fa-microchip"></i> Embedded Systems</div>
-          <div class="marquee-item"><i class="fas fa-code"></i> Software Engineering</div>
-          <div class="marquee-item"><i class="fas fa-heartbeat"></i> Medical Devices</div>
-          <div class="marquee-item"><i class="fas fa-memory"></i> Firmware Development</div>
-          <div class="marquee-item"><i class="fas fa-layer-group"></i> PCB Design</div>
-          <div class="marquee-item"><i class="fas fa-vial"></i> Test Automation</div>
-          <div class="marquee-item"><i class="fas fa-server"></i> DevOps</div>
-          <div class="marquee-item"><i class="fas fa-cloud"></i> Cloud Architecture</div>
-          <div class="marquee-item"><i class="fas fa-file-contract"></i> Regulatory Affairs</div>
-          <div class="marquee-item"><i class="fas fa-check-double"></i> System Validation</div>
+          <div class="marquee-item"><i class="fas fa-microchip" aria-hidden="true"></i> Embedded Systems</div>
+          <div class="marquee-item"><i class="fas fa-code" aria-hidden="true"></i> Software Engineering</div>
+          <div class="marquee-item"><i class="fas fa-heartbeat" aria-hidden="true"></i> Medical Devices</div>
+          <div class="marquee-item"><i class="fas fa-memory" aria-hidden="true"></i> Firmware Development</div>
+          <div class="marquee-item"><i class="fas fa-layer-group" aria-hidden="true"></i> PCB Design</div>
+          <div class="marquee-item"><i class="fas fa-vial" aria-hidden="true"></i> Test Automation</div>
+          <div class="marquee-item"><i class="fas fa-server" aria-hidden="true"></i> DevOps</div>
+          <div class="marquee-item"><i class="fas fa-cloud" aria-hidden="true"></i> Cloud Architecture</div>
+          <div class="marquee-item"><i class="fas fa-file-contract" aria-hidden="true"></i> Regulatory Affairs</div>
+          <div class="marquee-item"><i class="fas fa-check-double" aria-hidden="true"></i> System Validation</div>
         </div>
       </div>
     </section>
@@ -97,7 +118,7 @@
           <!-- Dynamic Content -->
         </div>
         <div style="text-align: center; margin-top: 40px;">
-          <button id="showMoreServicesBtn" class="btn btn-secondary" style="display: none;">Show More</button>
+          <button type="button" id="showMoreServicesBtn" class="btn btn-secondary" style="display: none;">Show More</button>
         </div>
       </div>
     </section>
@@ -109,8 +130,10 @@
         <!-- Search Bar -->
         <div class="jobs-controls reveal">
           <div class="search-wrapper glass">
-            <i class="fas fa-search"></i>
-            <input type="text" id="jobSearchInput" placeholder="Search by title, location, or keywords...">
+            <label for="jobSearchInput" class="visually-hidden">Search open positions</label>
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input type="text" id="jobSearchInput" name="jobSearch" autocomplete="off"
+              placeholder="Search by title, location, or keywords...">
           </div>
         </div>
 
@@ -148,9 +171,9 @@
           <div class="bento-card glass reveal why-us-card">
             <h3>Why Choose Us?</h3>
             <ul>
-              <li><i class="fas fa-check-circle"></i> Elite Talent Network</li>
-              <li><i class="fas fa-check-circle"></i> 48-Hour Turnaround</li>
-              <li><i class="fas fa-check-circle"></i> Industry Specialized</li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i> Elite Talent Network</li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i> 48-Hour Turnaround</li>
+              <li><i class="fas fa-check-circle" aria-hidden="true"></i> Industry Specialized</li>
             </ul>
           </div>
 
@@ -181,7 +204,7 @@
 
             <div class="contact-details">
               <div class="contact-item">
-                <div class="icon-box"><i class="fas fa-envelope"></i></div>
+                <div class="icon-box"><i class="fas fa-envelope" aria-hidden="true"></i></div>
                 <div>
                   <h5>Email Us</h5>
                   <a href="mailto:hr@jedesolutionsllc.com">hr@jedesolutionsllc.com</a>
@@ -189,7 +212,7 @@
               </div>
 
               <div class="contact-item">
-                <div class="icon-box"><i class="fas fa-phone-alt"></i></div>
+                <div class="icon-box"><i class="fas fa-phone-alt" aria-hidden="true"></i></div>
                 <div>
                   <h5>Call Us</h5>
                   <a href="tel:+13413451179">341-345-1179</a>
@@ -204,24 +227,29 @@
           <div class="contact-form-wrapper reveal">
             <div class="contact-form-container glass">
               <h3>Get in Touch</h3>
-              <form id="contactForm">
+              <form id="contactForm" novalidate>
+                <p id="contactFormStatus" class="form-status" role="status" aria-live="polite"></p>
                 <div class="form-group">
-                  <input type="text" id="name" required placeholder=" ">
+                  <input type="text" id="name" name="name" required placeholder=" " autocomplete="name">
                   <label for="name">Full Name</label>
                 </div>
                 <div class="form-group">
-                  <input type="email" id="email" required placeholder=" ">
+                  <input type="email" id="email" name="email" required placeholder=" " autocomplete="email">
                   <label for="email">Email Address</label>
                 </div>
                 <div class="form-group">
-                  <input type="text" id="company" placeholder=" ">
+                  <input type="text" id="company" name="company" placeholder=" " autocomplete="organization">
                   <label for="company">Company</label>
                 </div>
                 <div class="form-group">
-                  <textarea id="message" rows="4" required placeholder=" "></textarea>
+                  <textarea id="message" name="message" rows="4" required placeholder=" "></textarea>
                   <label for="message">How can we help?</label>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                <div class="hp-field" aria-hidden="true">
+                  <label for="contactHp">Leave this field empty</label>
+                  <input type="text" id="contactHp" name="company_website" tabindex="-1" autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" id="contactSubmitBtn">Send Message</button>
               </form>
             </div>
           </div>
