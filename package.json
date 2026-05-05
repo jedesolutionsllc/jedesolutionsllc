@@ -1,7 +1,7 @@
 {
   "name": "jedesolutionsllc",
   "private": true,
-  "description": "Marketing site + Vercel serverless contact endpoint (Resend)",
+  "description": "Marketing site + Netlify Functions contact endpoint (Resend)",
   "dependencies": {
     "resend": "^4.8.0"
   }

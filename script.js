@@ -87,10 +87,25 @@ document.addEventListener('DOMContentLoaded', () => {
     function getContactApiUrl() {
       const meta = document.querySelector('meta[name="contact-api-url"]');
       const raw = meta?.getAttribute('content')?.trim() ?? '';
-      if (!raw) return '/api/contact';
+
+      if (!raw) {
+        return '/.netlify/functions/contact';
+      }
+
       const base = raw.replace(/\/$/, '');
-      if (base.endsWith('/api/contact')) return base;
-      return `${base}/api/contact`;
+      if (base.endsWith('/api/contact') || base.includes('/.netlify/functions/contact')) {
+        return base;
+      }
+
+      try {
+        const url = new URL(/^https?:\/\//i.test(raw) ? raw : `https://${raw}`);
+        if (url.hostname.endsWith('vercel.app')) {
+          return `${url.origin}/api/contact`;
+        }
+        return `${url.origin}/.netlify/functions/contact`;
+      } catch {
+        return '/.netlify/functions/contact';
+      }
     }
 
     contactForm.addEventListener('submit', async function (e) {
@@ -158,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch {
         if (contactFormStatus) {
           contactFormStatus.textContent =
-            'Could not reach the server. If you are viewing this file locally, deploy to Vercel or set contact-api-url in the page meta tag.';
+            'Could not reach the server. Run `netlify dev`, deploy the site to Netlify, or set contact-api-url in the page meta tag.';
           contactFormStatus.classList.add('is-error');
         }
       } finally {

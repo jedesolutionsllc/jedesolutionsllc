@@ -20,39 +20,61 @@ function parseAllowedOrigins() {
     .filter(Boolean);
 }
 
-function applyCors(req, res) {
-  const origin = req.headers.origin;
-  const allowed = parseAllowedOrigins();
-  const isPreviewOrDev = process.env.VERCEL_ENV !== 'production';
+function isProductionContext() {
+  return process.env.CONTEXT === 'production';
+}
 
-  if (isPreviewOrDev && origin) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Vary', 'Origin');
-    return;
+function isFlexibleOriginContext() {
+  const c = process.env.CONTEXT;
+  return c === 'deploy-preview' || c === 'branch-deploy' || c === 'dev' || !c;
+}
+
+function corsHeaders(event) {
+  const allowedList = parseAllowedOrigins();
+  const origin = event.headers.origin || event.headers.Origin || '';
+
+  if (isFlexibleOriginContext() && origin) {
+    return {
+      'Access-Control-Allow-Origin': origin,
+      Vary: 'Origin',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    };
   }
 
-  if (origin && allowed.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Vary', 'Origin');
-    return;
+  if (origin && allowedList.includes(origin)) {
+    return {
+      'Access-Control-Allow-Origin': origin,
+      Vary: 'Origin',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    };
   }
 
   if (!origin) {
-    return;
+    return {
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    };
   }
 
-  res.setHeader('Access-Control-Allow-Origin', allowed[0] || 'null');
-  res.setHeader('Vary', 'Origin');
+  return {
+    'Access-Control-Allow-Origin': allowedList[0] || 'null',
+    Vary: 'Origin',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type'
+  };
 }
 
-async function readJsonBody(req) {
-  const chunks = [];
-  for await (const chunk of req) {
-    chunks.push(chunk);
-  }
-  const raw = Buffer.concat(chunks).toString('utf8');
-  if (!raw.trim()) return {};
-  return JSON.parse(raw);
+function json(event, statusCode, bodyObj) {
+  return {
+    statusCode,
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      ...corsHeaders(event)
+    },
+    body: JSON.stringify(bodyObj)
+  };
 }
 
 function validateEmail(email) {
@@ -60,39 +82,36 @@ function validateEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-module.exports = async (req, res) => {
-  applyCors(req, res);
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Content-Type', 'application/json; charset=utf-8');
-
-  if (req.method === 'OPTIONS') {
-    return res.status(204).end();
+exports.handler = async (event) => {
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 204,
+      headers: corsHeaders(event),
+      body: ''
+    };
   }
 
-  if (process.env.VERCEL_ENV === 'production') {
-    const origin = req.headers.origin;
+  if (isProductionContext()) {
+    const origin = event.headers.origin || event.headers.Origin;
     const allowed = parseAllowedOrigins();
     if (origin && !allowed.includes(origin)) {
-      res.setHeader('Access-Control-Allow-Origin', origin);
-      res.setHeader('Vary', 'Origin');
-      return res.status(403).json({ ok: false, error: 'Forbidden' });
+      return json(event, 403, { ok: false, error: 'Forbidden' });
     }
   }
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ ok: false, error: 'Method not allowed' });
+  if (event.httpMethod !== 'POST') {
+    return json(event, 405, { ok: false, error: 'Method not allowed' });
   }
 
   let body;
   try {
-    body = await readJsonBody(req);
+    body = JSON.parse(event.body || '{}');
   } catch {
-    return res.status(400).json({ ok: false, error: 'Invalid JSON body' });
+    return json(event, 400, { ok: false, error: 'Invalid JSON body' });
   }
 
   if (body.company_website && String(body.company_website).trim() !== '') {
-    return res.status(200).json({ ok: true });
+    return json(event, 200, { ok: true });
   }
 
   const name = String(body.name ?? '').trim();
@@ -101,22 +120,25 @@ module.exports = async (req, res) => {
   const message = String(body.message ?? '').trim();
 
   if (!name || name.length > MAX.name) {
-    return res.status(400).json({
+    return json(event, 400, {
       ok: false,
       error: 'Please enter your name.'
     });
   }
   if (!validateEmail(email)) {
-    return res.status(400).json({
+    return json(event, 400, {
       ok: false,
       error: 'Please enter a valid email address.'
     });
   }
   if (company.length > MAX.company) {
-    return res.status(400).json({ ok: false, error: 'Company name is too long.' });
+    return json(event, 400, {
+      ok: false,
+      error: 'Company name is too long.'
+    });
   }
   if (!message || message.length > MAX.message) {
-    return res.status(400).json({
+    return json(event, 400, {
       ok: false,
       error: 'Please enter a message.'
     });
@@ -128,7 +150,7 @@ module.exports = async (req, res) => {
 
   if (!apiKey || !to || !from) {
     console.error('Missing RESEND_API_KEY, CONTACT_TO_EMAIL, or CONTACT_FROM_EMAIL');
-    return res.status(503).json({
+    return json(event, 503, {
       ok: false,
       error: 'Contact form is not configured. Please try again later.'
     });
@@ -157,16 +179,16 @@ module.exports = async (req, res) => {
 
     if (error) {
       console.error('Resend error:', error);
-      return res.status(502).json({
+      return json(event, 502, {
         ok: false,
         error: 'Could not send message. Please try again or email us directly.'
       });
     }
 
-    return res.status(200).json({ ok: true });
+    return json(event, 200, { ok: true });
   } catch (err) {
     console.error(err);
-    return res.status(502).json({
+    return json(event, 502, {
       ok: false,
       error: 'Could not send message. Please try again later.'
     });
