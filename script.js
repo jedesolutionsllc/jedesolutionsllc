@@ -121,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const fd = new FormData(this);
       const name = String(fd.get('name') ?? '').trim();
       const email = String(fd.get('email') ?? '').trim();
-      const company = String(fd.get('company') ?? '').trim();
       const message = String(fd.get('message') ?? '').trim();
       const company_website = String(fd.get('company_website') ?? '').trim();
 
@@ -138,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify({
             name,
             email,
-            company,
             message,
             company_website
           })

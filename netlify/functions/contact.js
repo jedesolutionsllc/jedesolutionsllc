@@ -1,6 +1,6 @@
 const { Resend } = require('resend');
 
-const MAX = { name: 120, email: 254, company: 200, message: 8000 };
+const MAX = { name: 120, email: 254, message: 8000 };
 
 function escapeHtml(str) {
   return String(str)
@@ -116,7 +116,6 @@ exports.handler = async (event) => {
 
   const name = String(body.name ?? '').trim();
   const email = String(body.email ?? '').trim();
-  const company = String(body.company ?? '').trim();
   const message = String(body.message ?? '').trim();
 
   if (!name || name.length > MAX.name) {
@@ -129,12 +128,6 @@ exports.handler = async (event) => {
     return json(event, 400, {
       ok: false,
       error: 'Please enter a valid email address.'
-    });
-  }
-  if (company.length > MAX.company) {
-    return json(event, 400, {
-      ok: false,
-      error: 'Company name is too long.'
     });
   }
   if (!message || message.length > MAX.message) {
@@ -161,7 +154,6 @@ exports.handler = async (event) => {
     <h2>New contact form submission</h2>
     <p><strong>Name:</strong> ${escapeHtml(name)}</p>
     <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-    <p><strong>Company:</strong> ${company ? escapeHtml(company) : '—'}</p>
     <hr />
     <p><strong>Message:</strong></p>
     <pre style="font-family: system-ui, sans-serif; white-space: pre-wrap;">${escapeHtml(message)}</pre>
