@@ -28,13 +28,14 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
 }
 
 body {
   font-family: 'Inter', sans-serif;
   background-color: var(--bg-dark);
   color: var(--text-main);
-  line-height: 1.6;
+  line-height: 1.7; /* Increased for better readability */
   overflow-x: hidden;
   /* Seamless Checkered Background - Darker lines for light theme */
   background-image:
@@ -111,8 +112,7 @@ section {
 
 /* Header */
 header {
-  height: 80px;
-  /* Slightly reduced for elegance */
+  height: 100px; /* Increased from 80px for a more dominant presence */
   display: flex;
   align-items: center;
   position: fixed;
@@ -139,16 +139,15 @@ header .container {
 
 .logo {
   display: block;
-  height: 150px;
-  /* Adjust based on logo aspect ratio */
+  height: 180px; /* Increased from 150px for desktop dominance */
+  margin-left: -10px; /* Slight offset to align visual weight */
 }
 
 .logo img {
   height: 100%;
   width: auto;
   display: block;
-  /* filter: brightness(0) invert(1); Removed inversion for light theme */
-  /* Make logo white */
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.05)); /* Subtle depth for the logo */
 }
 
 .nav-links {
@@ -504,7 +503,7 @@ header .container {
 @media (min-width: 768px) {
   .bento-grid {
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 250px);
+    grid-auto-rows: minmax(250px, auto); /* Allow rows to expand if content grows */
   }
 
   .mission-card {
@@ -513,7 +512,6 @@ header .container {
 
   .why-us-card {
     grid-row: span 1;
-    /* Fix: Match height of other cards */
   }
 
   .stat-card {
@@ -1090,33 +1088,34 @@ footer {
 /* Mobile Responsive */
 @media (max-width: 768px) {
   :root {
-    /* Taller bar to fit a larger logo; keep in sync with header layout below */
-    --header-height: 112px;
+    /* Taller header to accommodate a larger, more dominant logo */
+    --header-height: 145px;
   }
 
   h1 {
-    font-size: 2.5rem;
+    font-size: 2.6rem;
+    letter-spacing: -0.02em;
   }
 
   h2 {
-    font-size: 1.85rem;
-    margin-bottom: 2rem;
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
   }
 
   .container {
-    padding-left: max(18px, env(safe-area-inset-left, 0px));
-    padding-right: max(18px, env(safe-area-inset-right, 0px));
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: max(20px, env(safe-area-inset-right, 0px));
   }
 
   section {
-    padding: 56px 0;
+    padding: 70px 0; /* More breathing room on mobile */
   }
 
   header {
     height: auto;
     min-height: var(--header-height);
-    padding-top: max(8px, env(safe-area-inset-top, 0px));
-    padding-bottom: 8px;
+    padding-top: max(4px, env(safe-area-inset-top, 0px));
+    padding-bottom: 4px;
   }
 
   header .container {
@@ -1126,14 +1125,14 @@ footer {
   .logo {
     display: flex;
     align-items: center;
-    height: 96px;
-    margin-left: -4px;
+    height: 135px; /* Increased from 120px for maximum dominance */
+    margin-left: -12px;
   }
 
   .logo img {
     height: 100%;
     width: auto;
-    max-width: min(280px, 70vw);
+    max-width: min(340px, 90vw); /* Increased from 320px/85vw */
     object-fit: contain;
   }
 
@@ -1141,6 +1140,7 @@ footer {
     display: block;
     flex-shrink: 0;
     align-self: center;
+    padding: 12px; /* Better touch target */
   }
 
   .nav-links {
@@ -1334,15 +1334,16 @@ footer {
 
 @media (max-width: 380px) {
   :root {
-    --header-height: 104px;
+    --header-height: 130px;
   }
 
   .logo {
-    height: 88px;
+    height: 120px;
+    margin-left: -14px;
   }
 
   .logo img {
-    max-width: min(240px, 68vw);
+    max-width: min(300px, 85vw);
   }
 }
 
